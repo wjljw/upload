@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>发送消息</title>
+
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="" style="">
+					<form>
+						
+						<input id="typeId" type="hidden" value=""/>
+						<input id="userId" type="number" value="201900001"/>
+						
+						<div class="form-group">
+							<label for="exampleInputEmail1">选择类型</label>
+							<select id="infoType" class="form-control input-sm"> </select>
+						</div>
+						<div class="form-group">
+							<label for="title">title</label>
+							<input type="text" class="form-control" id="title" placeholder="title">
+						</div>
+						<div class="form-group">
+							<label for="text">text</label>
+							<input type="text" class="form-control" id="text" placeholder="text">
+						</div>
+						<div class="form-group">
+							<label for="cover">upload cover</label>
+							<input type="file" id="cover">
+						</div>
+						<img src="" class="img-rounded" id="preview_cover" width="400px" max-height="800px" alt="">
+						
+						<div class="form-group">
+							<label for="image">upload image</label>
+							<input type="file" id="image">
+						</div>
+						<img src="" class="img-rounded" id="preview_image" width="400px" max-height="800px" alt="">
+						
+						<br />
+						<button id="submitBtn" type="button" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				infoTypList();
+				
+				$('#submitBtn').click(function(){
+					var typeId = $('#infoType').val();
+					var userId = $('#userId').val();
+					var title = $('#title').val();
+					var text = $('#text').val();
+					var cover = $('#cover').val();
+					var image = $('#image').val();
+					
+					insertInfo(typeId, userId, title, text, cover, image);
+				});
+				
+				
+			})
+			
+			$("#cover").change(function () {
+				//创建blob对象，浏览器将文件放入内存中，并生成标识
+				var img_src = URL.createObjectURL($(this)[0].files[0]);
+				//给img标检的src赋值
+				document.getElementById("preview_cover").src=img_src;
+				//URL.revokeObjectURL(img_src);// 手动 回收，
+			});
+			$("#image").change(function () {
+				//创建blob对象，浏览器将文件放入内存中，并生成标识
+				var img_src = URL.createObjectURL($(this)[0].files[0]);
+				//给img标检的src赋值
+				document.getElementById("preview_image").src=img_src;
+			});
+			
+			function infoTypList() {
+				$.ajax({
+					url: 'http://localhost:8087/publish/publishTypeList',
+					method: 'POST',
+					dataType: "json",
+					data: {},
+					success: function (data) {
+						if (data.result.status === 0) {
+							var list = data.data.list;
+							
+							for(var i = 0; i < list.length; i++) {
+								$('#infoType').append("<option value="+ list[i].id +">"+ list[i].name +"</option>");
+							}
+							
+							
+						} else {
+							
+						}
+					}
+				});
+			}
+			
+			function insertInfo(typeId, userId, title, text, cover, image) {
+				
+				$.ajax({
+					url: 'http://localhost:8087/publish/publishInfo',
+					type: 'POST',
+					dataType: "json",
+					contentType: "application/json",
+					/* data: {
+						typeId:typeId,
+						userId:userId,
+						title:title,
+						text:text,
+						cover:cover,
+						image:image
+					}, */
+					data: {"userId": 222222},
+					success: function (data) {
+						if (data.result.status === 0) {
+							console.log(data)
+							
+						} 
+					},
+					error: function (data) {
+						console.log(data.responseJSON.message)
+					}
+				});
+			}
+			
+			function uploadImage() {
+				$.ajax({
+					url: 'http://localhost:8099/upload',
+					type: 'POST',
+					/* data: {
+						typeId:typeId,
+						userId:userId,
+						title:title,
+						text:text,
+						cover:cover,
+						image:image
+					}, */
+					
+					success: function (data) {
+						if (data.result.status === 0) {
+							console.log(data)
+							
+						} 
+					},
+					error: function (data) {
+						console.log(data.responseJSON.message)
+					}
+				});
+			}
+
+		</script>
+	</body>
+</html>

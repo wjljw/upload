@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>upload image</title>
+
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.left_dev{
+				float:left;
+				padding: 50px 10px;
+			}
+			.right_dev{
+				float: right;
+				padding: 50px 10px;
+				border:5px red solid;
+				border-radius:10px;
+				width:60%;
+			}
+			.right_dev{
+				overflow:hidden;
+				overflow-y: auto;
+				height: 700px;
+			}
+			.head_title{
+				font-size: 45px;font-weight: bold;color: #007BFF;float: left;margin: 0 20px;
+			}
+			.head_img{
+				float: left;
+			}
+			
+		</style>
+		
+	</head>
+	<body>
+		<div class="modal-title head modal-header" style="display: flow-root;">
+			<img src="./img/avtar.png" class="img-rounded head_img"/>
+			<span class="head_title">广东网络科技有限公司-图片压缩</span>
+		</div>
+		
+		<div class="container">
+			<div class="row" style="margin-top:50px;">
+				<div class="left_dev">
+					<div class="azwoo"></div>
+					
+					<form action="http://192.168.1.43:8444/multipartUploadImages" method="post" enctype="multipart/form-data"  >
+						
+						<div class="form-group">
+							<label for="cover">路径</label>
+							<input type="text" name="filePath" id="filePath" class="input-group input-group-text">
+						</div>
+						
+						<div class="form-group">
+							<label for="cover">是否压缩图片</label>
+							<select class="custom-select" name="isCompression" id="isCompression">
+								<option value="1">是</option>
+								<option value="0">否</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label for="cover">是否保留上传的原图片</label>
+							<select class="custom-select" name="isSaveOriginal" id="isSaveOriginal">
+								<option value="0">否</option>
+								<option value="1">是</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label for="cover">是否修改图片名</label>
+							<select class="custom-select" name="isUpdateFileName" id="isUpdateFileName">
+								<option value="0">否</option>
+								<option value="1">是</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label for="cover">图片质量压缩比例</label>
+							<select class="custom-select" name="outputQuality" id="outputQuality">
+								<option value="0.9">90%</option>
+								<option value="0.8">80%</option>
+								<option value="0.7">70%</option>
+								<option value="0.6">60%</option>
+								<option value="0.5" selected="selected">50%</option>
+								<option value="0.4">40%</option>
+								<option value="0.3">30%</option>
+								<option value="0.2">20%</option>
+								<option value="0.1">10%</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label for="cover">缩放百分比</label>
+							<select class="custom-select" name="scale" id="scale">
+								<option value="1">不缩放</option>
+								<option value="0.9" selected="selected">90%</option>
+								<option value="0.8">80%</option>
+								<option value="0.7">70%</option>
+								<option value="0.6">60%</option>
+								<option value="0.5">50%</option>
+								<option value="0.4">40%</option>
+								<option value="0.3">30%</option>
+								<option value="0.2">20%</option>
+								<option value="0.1">10%</option>
+							</select>
+						</div>
+						
+																								
+						<div class="form-group">
+							<label for="cover">click upload</label>
+							<!-- <input type="file" name="uploadFile" id="cover" class="input-group input-group-text cover_image" data-id="9" multiple="multiple" > -->
+							<input type="file" name="uploadFile" title="" id="file" multiple="multiple" class="input-group input-group-text"/>
+						</div>
+						
+						
+						<!-- <div class="form-group">
+							<label for="image">upload image</label>
+							<input type="file" id="image">
+						</div>
+						<img src="" class="img-rounded" id="preview_image" width="400px" max-height="800px" alt=""> -->
+						
+						<br />
+						<br />
+						<br />
+						<button id="submitBtn" type="submit" class="btn btn-default">Submit</button>
+					</form>
+					
+					<!-- <form action="" id="upBox">
+							
+						名字：<input name="name">
+						
+						<div id="inputBox">
+							<input type="file" name="file" title="请选择图片" id="file" multiple="multiple"/>选择图片
+						</div>
+					
+						<div id="imgBox">
+						</div>
+						
+						<br/>
+						<br/>
+						<div class="form-group">
+							<button id="btn" class="btn btn-success">upload image</button>
+						</div>
+						
+					</form> -->
+					
+				</div>
+				
+				<div class="right_dev">
+					<!-- <img src="" class="img-rounded" id="preview_cover" max-width="300px" height="250px" /> -->
+					<div id="imgBox"></div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+		<script type="text/javascript" src="js/uploadImg.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				imgUpload({
+					inputId:'file', //input框id
+					imgBox:'imgBox', //图片容器id
+					buttonId:'btn', //提交按钮id
+					upUrl:'http://127.0.0.1:8444/multipartUpload',  //提交地址
+					data:'file', //参数名
+					num:"10"//最多上传图片个数
+				})
+				
+				$('#submitBtn').click(function(){
+					var typeId = $('#infoType').val();
+					var userId = $('#userId').val();
+					var title = $('#title').val();
+					var text = $('#text').val();
+					var cover = $('#cover').val();
+					var image = $('#image').val();
+					
+				});
+				
+				$(".cover_image").change(function () {
+				        var file = this.files[0];
+				        readFile(file,$(this).parent().siblings(".azwoo"));
+				        image_id=$(this).attr("data-id");
+				    });
+				var on =document.querySelector(".azwoo");
+				
+				
+				
+				$("#cover").change(function () {
+					//创建blob对象，浏览器将文件放入内存中，并生成标识
+					var img_src = URL.createObjectURL($(this)[0].files[0]);
+					
+					//给img标检的src赋值
+					document.getElementById("preview_cover").src=img_src;
+					//URL.revokeObjectURL(img_src);// 手动 回收，
+				});
+				
+				
+				$("#image").change(function () {
+					//创建blob对象，浏览器将文件放入内存中，并生成标识
+					var img_src = URL.createObjectURL($(this)[0].files[0]);
+					//给img标检的src赋值
+					document.getElementById("preview_image").src=img_src;
+				});
+				
+			});
+			
+			
+			
+	
+			
+			 function readFile(file,element) {
+				
+				 //        新建阅读器
+				        var reader = new FileReader();
+				        //        根据文件类型选择阅读方式
+				        switch (file.type){
+				            case 'image/jpg':
+				            case 'image/png':
+				            case 'image/jpeg':
+				            case 'image/gif':
+				            reader.readAsDataURL(file);
+				            break;
+			}
+			
+			reader.addEventListener('load',function () {
+				//         如果说让读取的文件显示的话 还是需要通过文件的类型创建不同的标签
+				switch (file.type){
+					case 'image/jpg':
+					case 'image/png':
+					case 'image/jpeg':
+					case 'image/gif':
+					var img = document.createElement('img');
+					img.src = reader.result;
+					console.log(image_id+img.src);
+					element.append(img);
+					element.show();
+					$.ajax({
+						type:"post",
+						url:"http://127.0.0.1:8444/multipartUpload",
+						dataType:"text",
+						data:{
+							imageFile:img.src,
+							style:4,
+							id:image_id,
+							fileTypePath:'/images'
+						},
+						success:function(res){
+							console.log("上传成功！！！！！！！！！");
+						
+						}
+					});//请求结束
+	 
+					break;
+					}
+				});
+				
+			};//readFile函数结束
+
+		</script>
+	</body>
+</html>
