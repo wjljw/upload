@@ -7,6 +7,9 @@
 
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<style type="text/css">
+			.hidden{
+				
+			}
 			.left_dev{
 				float:left;
 				padding: 50px 10px;
@@ -76,6 +79,11 @@
 						</div>
 						
 						<div class="form-group">
+							<label for="cover">指定图片大小：KB</label>
+							<input type="number" name="desFileSize" id="desFileSize" class="input-group input-group-text" placeholder="不指定" />
+						</div>
+						
+						<div class="form-group isHidden">
 							<label for="cover">图片质量压缩比例</label>
 							<select class="custom-select" name="outputQuality" id="outputQuality">
 								<option value="0.9">90%</option>
@@ -90,7 +98,7 @@
 							</select>
 						</div>
 						
-						<div class="form-group">
+						<div class="form-group isHidden">
 							<label for="cover">缩放百分比</label>
 							<select class="custom-select" name="scale" id="scale">
 								<option value="1">不缩放</option>
@@ -162,6 +170,21 @@
 		<script type="text/javascript" src="js/uploadImg.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function () {
+				if ($('#desFileSize').val() === '') {
+					$('.isHidden').removeAttr("hidden");
+				} else {
+					$('.isHidden').attr('hidden', "hidden");
+				}
+				
+				$("#desFileSize").mouseout(function() {
+					var v = $(this).val();
+					if (v === '') {
+						$('.isHidden').removeAttr("hidden");
+					} else {
+						$('.isHidden').attr('hidden', "hidden");
+					}
+				});
+				
 				imgUpload({
 					inputId:'file', //input框id
 					imgBox:'imgBox', //图片容器id
